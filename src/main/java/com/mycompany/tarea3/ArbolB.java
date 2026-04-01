@@ -175,11 +175,50 @@ NodoB raiz; // Nodo raíz del árbol
         padre.claves[i] = nodoLleno.claves[t - 1];
         padre.n++;
     }
+public void eliminar(int k) {
 
-    /**
-     * Eliminación no implementada completamente.
-     */
-    public void eliminar(int k) {
-        System.out.println("Eliminación no implementada completamente");
+    if (raiz == null) {
+        System.out.println("Árbol vacío");
+        return;
     }
+
+    // Guardamos todos los valores excepto el eliminado
+    java.util.ArrayList<Integer> lista = new java.util.ArrayList<>();
+    recolectar(raiz, lista);
+
+    if (!lista.remove(Integer.valueOf(k))) {
+        System.out.println("Valor no encontrado");
+        return;
+    }
+
+    // Reconstruimos el árbol
+    raiz = null;
+
+    for (int val : lista) {
+        insertar(val);
+    }
+
+    System.out.println("Eliminado correctamente");
+}
+
+/**
+ * Recorre el árbol y guarda todos los valores en una lista
+ */
+private void recolectar(NodoB nodo, java.util.List<Integer> lista) {
+
+    int i;
+
+    for (i = 0; i < nodo.n; i++) {
+
+        if (!nodo.hoja) {
+            recolectar(nodo.hijos[i], lista);
+        }
+
+        lista.add(nodo.claves[i]);
+    }
+
+    if (!nodo.hoja) {
+        recolectar(nodo.hijos[i], lista);
+    }
+}
 }
